@@ -20,6 +20,7 @@
 
             <div id="currentLocation" class="alert alert-primary" role="alert"></div>
             <div id="currentDistance" class="alert alert-dark" role="alert"></div>
+            <div id="error" class="alert alert-danger" role="alert"></div>
         </div>
 
         <div style="margin:10px">
@@ -32,6 +33,15 @@
     <script>
         var currentDistancehtml = document.getElementById("currentDistance");
         var currentLocationhtml = document.getElementById("currentLocation");
+        var errorhtml = document.getElementById("currentLocation");
+
+        const options = {
+            enableHighAccuracy: false,
+        };
+
+        function error(err) {
+            errorhtml.innerHTML = `ERROR(${err.code}): ${err.message}`;
+        }
 
         function getLocation() {
             if (navigator.geolocation) {
@@ -52,7 +62,7 @@
                     const description = `You are ${ftDistance} feet away from ${inputLat}, ${inputLng}`;
 
                     currentDistancehtml.innerHTML = description;
-                });
+                }, error, options);
             } else {
                 x.innerHTML = "Geolocation is not supported by this browser.";
             }
