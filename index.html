@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <button onclick="getLocation()">Measure distance</button>
+    <br />
+    <br />
+
+    <label for="lat">Lat: </label>
+    <input type="number" id="lat">
+
+
+    <label for="lng">Lng: </label>
+    <input type="lng" id="lng">
+
+    <p id="currentDistance"></p>
+
+    <script src="lib/geolib.js"></script>
+    <script>
+        var x = document.getElementById("currentDistance");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                const inputLat = Number(document.getElementById('lat').value);
+                const inputLng = Number(document.getElementById('lng').value);
+
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    console.log(`self lat -> ${latitude}`)
+                    console.log(`self lng -> ${longitude}`)
+
+                    const description = 'You are ' +
+                        geolib.getDistance({ latitude, longitude }, {
+                            latitude: inputLat,
+                            longitude: inputLng,
+                        }) +
+                            `meters away from ${inputLat}, ${inputLng}`
+
+                    x.innerHTML = description;
+                });
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        setInterval(() => {
+            getLocation();
+        }, 1000);
+    </script>
+
+</body>
+
+</html>
