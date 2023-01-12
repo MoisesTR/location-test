@@ -36,7 +36,9 @@
         var errorhtml = document.getElementById("error");
 
         const options = {
-            enableHighAccuracy: false,
+            timeout: 5 * 1000,
+            maximumAge: 10000,
+            enableHighAccuracy: true,
         };
 
         function error(err) {
